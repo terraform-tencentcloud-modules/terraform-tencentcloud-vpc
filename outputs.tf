@@ -1,6 +1,6 @@
 output "vpc_id" {
   description = "The id of vpc."
-  value       = var.vpc_id == "" ? tencentcloud_vpc.vpc.*.id[0] : var.vpc_id
+  value       = var.vpc_id != "" ? var.vpc_id : concat(tencentcloud_vpc.vpc.*.id, [""])[0]
 }
 
 output "subnet_id" {
