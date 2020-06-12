@@ -1,9 +1,15 @@
+provider "tencentcloud" {
+  region = "ap-guangzhou"
+}
+
 data "tencentcloud_vpc_instances" "foo" {
   name = "Default-VPC"
 }
 
 module "vpc" {
   source = "../../"
+
+  region = "ap-guangzhou"
 
   vpc_id = "${data.tencentcloud_vpc_instances.foo.instance_list.0.vpc_id}"
 
