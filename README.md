@@ -15,7 +15,7 @@ The following resources are included.
 ```hcl
 module "vpc" {
   source  = "terraform-tencentcloud-modules/vpc/tencentcloud"
-  version = "1.0.0"
+  version = "1.0.3"
 
   vpc_name = "simple-vpc"
   vpc_cidr = "10.0.0.0/16"
