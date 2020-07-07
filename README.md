@@ -52,9 +52,9 @@ It is possible to use existing VPC when specify `vpc_id` parameter.
 |------|-------------|:----:|:-----:|:-----:|
 | region | TencentCloud region to launch resources. | string | "" | no
 | tags | A map of tags to add to all resources. | map(string) | {} | no
-| cpu_core_count | CPU core count used to query supported available zones. | intger | 1 | no
-| memory_size | Memory size used to query supported available zones. | intger | 2 | no
-| gpu_core_count | GPU core count used to query supported available zones. | intger | 0 | no
+| cpu_core_count | CPU core count used to query supported available zones. | number | 1 | no
+| memory_size | Memory size used to query supported available zones. | number | 2 | no
+| gpu_core_count | GPU core count used to query supported available zones. | number | 0 | no
 | vpc_id | The vpc id used to launch resources. | string | "" | no
 | vpc_name | The vpc name used to launch a new vpc when 'vpc_id' is not specified. | string | tf-modules-vpc | no
 | vpc_cidr | The cidr block used to launch a new vpc when 'vpc_id' is not specified. | string | 172.16.0.0/16 | no
