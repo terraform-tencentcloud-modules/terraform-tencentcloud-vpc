@@ -1,8 +1,3 @@
-variable "region" {
-  description = "TencentCloud region to launch resources."
-  default     = ""
-}
-
 variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)

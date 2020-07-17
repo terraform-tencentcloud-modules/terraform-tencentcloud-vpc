@@ -1,8 +1,3 @@
-provider "tencentcloud" {
-  version = ">=1.18.1"
-  region  = var.region != "" ? var.region : null
-}
-
 data "tencentcloud_instance_types" "default" {
   cpu_core_count = var.cpu_core_count
   gpu_core_count = var.gpu_core_count

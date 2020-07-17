@@ -50,7 +50,6 @@ It is possible to use existing VPC when specify `vpc_id` parameter.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| region | TencentCloud region to launch resources. | string | "" | no
 | tags | A map of tags to add to all resources. | map(string) | {} | no
 | cpu_core_count | CPU core count used to query supported available zones. | number | 1 | no
 | memory_size | Memory size used to query supported available zones. | number | 2 | no
