@@ -9,8 +9,6 @@ data "tencentcloud_vpc_instances" "foo" {
 module "vpc" {
   source = "../../"
 
-  region = "ap-guangzhou"
-
   vpc_id = "${data.tencentcloud_vpc_instances.foo.instance_list.0.vpc_id}"
 
   subnet_name  = "simple-vpc"
