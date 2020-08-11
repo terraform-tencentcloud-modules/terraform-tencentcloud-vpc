@@ -17,3 +17,8 @@ output "route_entry_id" {
   description = "The id of route table entry."
   value       = module.vpc.route_entry_id
 }
+
+output "acl_id"{
+  description = "ID of network ACL instance."
+  value       = module.vpc.acl_id
+}

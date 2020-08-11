@@ -30,3 +30,17 @@ resource "tencentcloud_route_table_entry" "route_entry" {
   next_type              = var.next_type[count.index]
   next_hub               = var.next_hub[count.index]
 }
+
+resource "tencentcloud_vpc_acl" "default" {
+  count   = var.vpc_id != "" && var.acl_name != "" ? 1 : 0
+  name    = var.acl_name
+  vpc_id  = var.vpc_id
+  ingress = var.ingress
+  egress  = var.egress
+}
+
+resource "tencentcloud_vpc_acl_attachment" "default" {
+  count      = var.vpc_id != "" && var.acl_name != "" && length(var.subnet_cidrs) > 0 ? 1 : 0
+  acl_id     = tencentcloud_vpc_acl.default[0].id
+  subnet_ids = tencentcloud_subnet.subnet[*].id
+}

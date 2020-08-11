@@ -106,3 +106,21 @@ variable "number_format" {
   description = "The number format used to output."
   default     = "%02d"
 }
+
+variable "acl_name" {
+  description = "Name of the network ACL."
+  default     = ""
+  type        = string
+}
+
+variable "ingress" {
+  description = "Ingress rules. A rule must match the following format: [action]#[cidr_ip]#[port]#[protocol]. The available value of 'action' is `ACCEPT` and `DROP`. The 'cidr_ip' must be an IP address network or segment. The 'port' valid format is `80`, `80,443`, `80-90` or `ALL`. The available value of 'protocol' is `TCP`, `UDP`, `ICMP` and `ALL`. When 'protocol' is `ICMP` or `ALL`, the 'port' must be `ALL`."
+  default     = null
+  type        = list(string)
+}
+
+variable "egress" {
+  description = "Egress rules. A rule must match the following format: [action]#[cidr_ip]#[port]#[protocol]. The available value of 'action' is `ACCEPT` and `DROP`. The 'cidr_ip' must be an IP address network or segment. The 'port' valid format is `80`, `80,443`, `80-90` or `ALL`. The available value of 'protocol' is `TCP`, `UDP`, `ICMP` and `ALL`. When 'protocol' is `ICMP` or `ALL`, the 'port' must be `ALL`."
+  default     = null
+  type        = list(string)
+}
