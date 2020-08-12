@@ -22,3 +22,8 @@ output "availability_zones" {
   description = "The availability zones of instance type."
   value       = tencentcloud_subnet.subnet.*.availability_zone
 }
+
+output "acl_id" {
+  description = "ID` of the network ACL instance."
+  value       = tencentcloud_vpc_acl.default.*.id
+}

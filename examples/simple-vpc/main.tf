@@ -11,6 +11,10 @@ module "vpc" {
   next_type         = ["EIP"]
   next_hub          = ["0"]
 
+  acl_name = "test_acl"
+  ingress  = ["ACCEPT#192.168.1.0/24#800#TCP", "ACCEPT#192.168.1.0/24#800-900#TCP",]
+  egress   = ["ACCEPT#192.168.1.0/24#800#TCP", "ACCEPT#192.168.1.0/24#800-900#TCP",]
+
   tags = {
     module = "vpc"
   }

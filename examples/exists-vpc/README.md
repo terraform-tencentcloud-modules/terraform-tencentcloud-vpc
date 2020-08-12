@@ -22,3 +22,4 @@ Note, this example may create resources which cost money. Run `terraform destroy
 | subnet_id | The id of subnet. |
 | route_table_id | The id of route table. |
 | route_entry_id | The id of route table entry. |
+| acl_id | ID of network ACL instance. |

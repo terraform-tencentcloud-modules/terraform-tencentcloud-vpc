@@ -9,7 +9,8 @@ The following resources are included.
 * [VPC](https://www.terraform.io/docs/providers/tencentcloud/r/vpc.html)
 * [VPC Subnet](https://www.terraform.io/docs/providers/tencentcloud/r/subnet.html)
 * [VPC Route Entry](https://www.terraform.io/docs/providers/tencentcloud/r/route_table_entry.html)
-
+* [VPC ACL](https://www.terraform.io/docs/providers/tencentcloud/r/vpc_acl.html)
+* [VPC ACL Attachment](https://www.terraform.io/docs/providers/tencentcloud/r/vpc_acl_attachment.html)
 ## Usage
 
 ```hcl
@@ -26,6 +27,10 @@ module "vpc" {
   destination_cidrs = ["1.0.1.0/24"]
   next_type         = ["EIP"]
   next_hub          = ["0"]
+
+  acl_name = "test_acl"
+  ingress  = ["ACCEPT#192.168.1.0/24#800#TCP", "ACCEPT#192.168.1.0/24#800-900#TCP",]
+  egress   = ["ACCEPT#192.168.1.0/24#800#TCP", "ACCEPT#192.168.1.0/24#800-900#TCP",]
 
   tags = {
     module = "vpc"
@@ -69,6 +74,9 @@ It is possible to use existing VPC when specify `vpc_id` parameter.
 | destination_cidrs | List of destination CIDR blocks of router table in the specified VPC. | list(string) | [] | no
 | next_type | List of next hop types of router table in the specified vpc. | list(string) | [] | no
 | next_hub | List of next hop gateway id of router table in the specified vpc. | list(string) | [] | no
+| acl_name | Name of the network ACL. | string | [] | no
+| ingress | Ingress rules. A rule format: [action]#[cidr_ip]#[port]#[protocol].  | string | [] | no
+| egress | Egress rules. A rule format: [action]#[cidr_ip]#[port]#[protocol]. | string | [] | no
 
 ## Outputs
 
@@ -79,6 +87,8 @@ It is possible to use existing VPC when specify `vpc_id` parameter.
 | route_table_id | The id of route table. |
 | route_entry_id | The id of route table entry. |
 | availability_zones | The availability zones of instance type. |
+| acl_id | ID of network ACL instance. |
+
 
 ## Authors
 
