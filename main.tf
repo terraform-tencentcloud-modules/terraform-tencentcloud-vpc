@@ -40,7 +40,7 @@ resource "tencentcloud_vpc_acl" "default" {
 }
 
 resource "tencentcloud_vpc_acl_attachment" "default" {
-  count      = var.vpc_id != "" && var.acl_name != "" && length(var.subnet_cidrs) > 0 ? 1 : 0
-  acl_id     = tencentcloud_vpc_acl.default[0].id
-  subnet_ids = tencentcloud_subnet.subnet[*].id
+  count     = var.vpc_id != "" && var.acl_name != "" && length(var.subnet_cidrs) > 0 ? length(var.subnet_cidrs) : 0
+  acl_id    = tencentcloud_vpc_acl.default[0].id
+  subnet_id = tencentcloud_subnet.subnet[count.index].id
 }
