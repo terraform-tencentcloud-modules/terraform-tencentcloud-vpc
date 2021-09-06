@@ -6,7 +6,8 @@ This module will create a new VPC, Subnet and Route rules.
 
 To run this example, you need first replace the configuration like `vpc_name`, `subnet_name` etc, and then execute:
 
-```bash
+```
+bash
 $ terraform init
 $ terraform plan
 $ terraform apply
