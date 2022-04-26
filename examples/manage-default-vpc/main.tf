@@ -2,6 +2,10 @@ provider tencentcloud {
   region = "ap-shijiazhuang-ec"
 }
 
+data "tencentcloud_vpc_instances" "default" {
+  name = "Default-VPC"
+}
+
 module "vpc" {
   source = "../../"
 
@@ -10,9 +14,7 @@ module "vpc" {
     owner = "multi-cloud"
   }
 
-  vpc_name = "test-vpc"
-  vpc_cidr = "10.0.0.0/16"
-  vpc_is_multicast = false
+  vpc_id = data.tencentcloud_vpc_instances.default.instance_list[0].vpc_id
 
   enable_nat_gateway = false
   enable_route_table = false
@@ -20,14 +22,10 @@ module "vpc" {
   subnets = [
     {
       subnet_name = "review"
-      subnet_cidr = "10.0.0.0/24"
-      availability_zone = "ap-shijiazhuang-ec-1"
-    },
-    {
-      subnet_name = "mall"
-      subnet_cidr = "10.0.1.0/24"
+      subnet_cidr = "10.215.128.0/24"
       availability_zone = "ap-shijiazhuang-ec-1"
     }
   ]
 
 }
+

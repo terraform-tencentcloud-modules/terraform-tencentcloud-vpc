@@ -2,43 +2,90 @@
 
 ## terraform-tencentcloud-vpc
 
-A terraform module used to create TencentCloud VPC, subnet and route entry.
+A terraform module used to create TencentCloud VPC, nat-gateway, subnet, route table and routes entry.
 
-The following resources are included.
+The following resources included.
 
-* [VPC](https://www.terraform.io/docs/providers/tencentcloud/r/vpc.html)
-* [VPC Subnet](https://www.terraform.io/docs/providers/tencentcloud/r/subnet.html)
-* [VPC Route Entry](https://www.terraform.io/docs/providers/tencentcloud/r/route_table_entry.html)
+* [VPC](https://registry.terraform.io/providers/tencentcloudstack/tencentcloud/latest/docs/resources/vpc)
+* [VPC Subnet](https://registry.terraform.io/providers/tencentcloudstack/tencentcloud/latest/docs/resources/subnet)
+* [VPC Nat Gateway](https://registry.terraform.io/providers/tencentcloudstack/tencentcloud/latest/docs/resources/nat_gateway)
+* [VPC Route Table](https://registry.terraform.io/providers/tencentcloudstack/tencentcloud/latest/docs/resources/route_table)
+* [VPC Route Entry](https://registry.terraform.io/providers/tencentcloudstack/tencentcloud/latest/docs/resources/route_table_entry)
 
 ## Usage
 
 ```hcl
 module "vpc" {
-  source  = "terraform-tencentcloud-modules/vpc/tencentcloud"
-  version = "1.0.3"
+  source = "terraform-tencentcloud-modules/vpc/tencentcloud"
 
-  vpc_name = "simple-vpc"
-  vpc_cidr = "10.0.0.0/16"
-
-  subnet_name  = "simple-vpc"
-  subnet_cidrs = ["10.0.0.0/24"]
-
-  destination_cidrs = ["1.0.1.0/24"]
-  next_type         = ["EIP"]
-  next_hub          = ["0"]
-
+  region = "ap-shijiazhuang-ec"
   tags = {
-    module = "vpc"
+    owner = "multi-cloud"
   }
 
-  vpc_tags = {
-    test = "vpc"
-  }
+  vpc_name = "test-vpc"
+  vpc_cidr = "10.0.0.0/16"
+  vpc_is_multicast = false
 
-  subnet_tags = {
-    test = "subnet"
+  enable_nat_gateway = true
+  nat_gateways =[
+    {
+      nat_name = "nat-1",
+      eips = [
+        {
+          internet_max_bandwidth_out = 10
+          internet_service_provider = "CMCC"
+        }
+      ]
+    },
+    {
+      nat_name = "nat-2"
+      eips = [
+        {
+          internet_max_bandwidth_out = 10
+          internet_service_provider = "CMCC"
+        }
+      ]
+    }
+  ]
+
+  enable_route_table = true
+  default_route_table_dest_to_hub = {
+    "1.2.3.0/24": "0"
   }
+  default_route_table_attach_nat_gateway = true
+  default_route_table_nat_gateway_name = "nat-2"
+  route_tables = [
+    {
+      route_table_name = "rtb-1",
+      dest_to_hub = {}
+      attach_nat_gateway = true
+      nat_gateway_name = "nat-1"
+    },
+    {
+      route_table_name = "rtb-2",
+      dest_to_hub = {
+        "5.6.7.0/24": "0"
+      }
+      attach_nat_gateway = false
+    }
+  ]
+
+  subnets = [
+    {
+      subnet_name = "review"
+      subnet_cidr = "10.0.0.0/24"
+      availability_zone = "ap-shijiazhuang-ec-1"
+    },
+    {
+      subnet_name = "mall"
+      subnet_cidr = "10.0.1.0/24"
+      availability_zone = "ap-shijiazhuang-ec-1"
+      route_table_name = "rtb-2"
+    }
+  ]
 }
+
 ```
 
 ## Conditional Creation
@@ -51,9 +98,6 @@ It is possible to use existing VPC when specify `vpc_id` parameter.
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | tags | A map of tags to add to all resources. | map(string) | {} | no
-| cpu_core_count | CPU core count used to query supported available zones. | number | 1 | no
-| memory_size | Memory size used to query supported available zones. | number | 2 | no
-| gpu_core_count | GPU core count used to query supported available zones. | number | 0 | no
 | vpc_id | The vpc id used to launch resources. | string | "" | no
 | vpc_name | The vpc name used to launch a new vpc when 'vpc_id' is not specified. | string | tf-modules-vpc | no
 | vpc_cidr | The cidr block used to launch a new vpc when 'vpc_id' is not specified. | string | 172.16.0.0/16 | no
