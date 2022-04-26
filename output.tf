@@ -1,3 +1,6 @@
+output "vpc" {
+  value = local.vpc
+}
 
 output vpc_id {
   value = local.vpc_id
@@ -6,10 +9,6 @@ output vpc_id {
 output "subnets" {
   value = local.subnet_name_to_id
 }
-//
-//output "subnet_id" {
-//  value = local.subnet_id_map
-//}
 
 output "rtbs" {
   value = local.route_table_name_to_id
