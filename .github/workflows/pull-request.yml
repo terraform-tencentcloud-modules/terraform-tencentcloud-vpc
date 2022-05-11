@@ -21,6 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
 
       # Runs a set of commands using the runners shell
       - name: Module Files Checking
@@ -34,7 +35,7 @@ jobs:
             README.md
           )
 
-          test -d examples2 || echo "[WARN] Missing ./examples in modules directory, we strongly recommend you to provide example usage of this module."
+          test -d examples || echo "[WARN] Missing ./examples in modules directory, we strongly recommend you to provide example usage of this module."
 
           for i in ${files[@]} ; do
             fileCount=$(find ./ -name $i | wc -l)
@@ -46,15 +47,10 @@ jobs:
             fi
           done
       - name: Terraform Validate
-              uses: hashicorp/setup-terraform@v1
-              run: terraform validate
+        run: |
+          terraform init
+          terraform validate
 
       - name: Terraform Format Check
-        uses: hashicorp/setup-terraform@v1
         run: |
-          result=$(terraform fmt -write=false -recursive)
-
-          if [[ $result != "" ]]; then
-            echo "[ERROR] You have unformatted .tf files:\n\n$result \n\nPlease run the command `terraform fmt -recursive` first."
-            exit -1
-          fi
+          terraform fmt -diff -check -recursive
