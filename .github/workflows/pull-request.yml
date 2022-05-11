@@ -46,8 +46,8 @@ jobs:
             fi
           done
       - name: Terraform Validate
-              uses: hashicorp/setup-terraform@v1
-              run: terraform validate
+        uses: hashicorp/setup-terraform@v1
+        run: terraform validate
 
       - name: Terraform Format Check
         uses: hashicorp/setup-terraform@v1
