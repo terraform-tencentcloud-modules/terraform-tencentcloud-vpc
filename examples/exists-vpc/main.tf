@@ -1,3 +1,15 @@
+terraform {
+  required_providers {
+    tencentcloud = {
+      source = "tencentcloudstack/tencentcloud"
+    }
+  }
+}
+
+provider "tencentcloud" {
+  region = "ap-guangzhou"
+}
+
 data "tencentcloud_vpc_instances" "foo" {
   name = "Default-VPC"
 }
