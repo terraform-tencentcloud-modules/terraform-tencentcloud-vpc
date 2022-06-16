@@ -1,7 +1,6 @@
 
 locals {
   # global
-  region = var.region
   tags = var.tags
 
   # vpc
