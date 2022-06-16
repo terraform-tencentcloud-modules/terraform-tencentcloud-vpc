@@ -1,6 +1,3 @@
-provider tencentcloud {
-  region = "ap-shijiazhuang-ec"
-}
 
 data "tencentcloud_vpc_instances" "default" {
   name = "Default-VPC"
@@ -9,7 +6,7 @@ data "tencentcloud_vpc_instances" "default" {
 module "vpc" {
   source = "../../"
 
-  region = "ap-shijiazhuang-ec"
+  tencentcloud_provider_region = "ap-shijiazhuang-ec"
   tags = {
     owner = "multi-cloud"
   }

@@ -1,5 +1,4 @@
 
-
 module "vpc" {
   source = "../../"
 
@@ -24,6 +23,7 @@ module "vpc" {
       ]
     }
   ]
+
   enable_route_table = true
   default_route_table_dest_to_hub = {
     "1.2.3.0/24": "0"
@@ -34,10 +34,8 @@ module "vpc" {
   subnets = [
     {
       subnet_name = "review"
-      subnet_cidr = "10.0.128.0/24"
+      subnet_cidr = "10.0.0.0/24"
       availability_zone = "ap-shijiazhuang-ec-1"
     }
   ]
-
 }
-

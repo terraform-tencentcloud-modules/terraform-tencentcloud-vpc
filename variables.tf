@@ -1,5 +1,11 @@
-variable "region" {
-  default = "ap-hangzhou-ec"
+variable "tencentcloud_provider_domain" {
+  default = "tencentcloudapi.com"
+}
+variable "tencentcloud_provider_protocol" {
+  default = "HTTPS"
+}
+variable "tencentcloud_provider_region" {
+  default = "ap-guangzhou"
 }
 
 variable "vpc_id" {
