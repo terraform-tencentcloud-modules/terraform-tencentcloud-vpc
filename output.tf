@@ -6,6 +6,10 @@ output vpc_id {
   value = local.vpc_id
 }
 
+output vpc_name {
+  value = local.vpc.vpc_name
+}
+
 output "subnets" {
   value = local.subnet_name_to_id
 }
