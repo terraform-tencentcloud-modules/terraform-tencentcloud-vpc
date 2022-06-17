@@ -1,8 +1,10 @@
+provider tencentcloud {
+  region = "ap-shijiazhuang-ec"
+}
 
 module "vpc" {
   source = "../../"
 
-  tencentcloud_provider_region = "ap-shijiazhuang-ec"
   tags = {
     owner = "multi-cloud"
   }
