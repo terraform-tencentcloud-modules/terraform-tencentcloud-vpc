@@ -7,7 +7,7 @@ output vpc_id {
 }
 
 output vpc_name {
-  value = local.vpc.vpc_name
+  value = local.vpc.name
 }
 
 output "subnets" {
