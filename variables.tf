@@ -1,3 +1,9 @@
+variable "create_vpc" {
+  description = "Controls if VPC should be created (it affects almost all resources)"
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)
@@ -79,6 +85,12 @@ variable "availability_zones" {
   default     = []
 }
 
+variable "create_route_table" {
+  description = "Controls if separate route table for subnets should be created"
+  type        = bool
+  default     = true
+}
+
 variable "route_table_id" {
   description = "The route table id of router table in the specified vpc."
   default     = ""
@@ -105,4 +117,113 @@ variable "next_hub" {
 variable "number_format" {
   description = "The number format used to output."
   default     = "%02d"
+}
+
+variable "route_table_tags" {
+  description = "Additional tags for the route table."
+  type        = map(string)
+  default     = {}
+}
+/* create vpn gateway in vpc */
+variable "enable_vpn_gateway" {
+  description = "Should be true if you want to create a new VPN Gateway resource and attach it to the VPC"
+  type        = bool
+  default     = false
+}
+
+variable "vpn_gateway_bandwidth" {
+  description = "bandwidth of VPN Gateway"
+  type        = number
+  default     = 5
+}
+
+variable "vpn_gateway_max_connection" {
+  description = " Maximum number of connected clients allowed for the SSL VPN gateway. Valid values: [5, 10, 20, 50, 100]. This parameter is only required for SSL VPN gateways."
+  type        = number
+  default     = 5
+}
+
+variable "vpn_gateway_type" {
+  description = "Type of VPN gateway. Valid value: IPSEC, SSL and CCN."
+  type        = string
+  default     = "IPSEC"
+}
+
+variable "vpn_gateway_availability_zone" {
+  description = "The Availability Zone for the VPN Gateway"
+  type        = string
+  default     = ""
+}
+
+variable "vpn_gateway_tags" {
+  description = "Additional tags for the VPN gateway"
+  type        = map(string)
+  default     = {}
+}
+
+/* enable ACL to subnets */
+variable "manage_network_acl" {
+  description = "Should be true to adopt and manage Default Network ACL"
+  type        = bool
+  default     = false
+}
+
+variable "network_acl_name" {
+  description = "Name to be used on the Default Network ACL"
+  type        = string
+  default     = null
+}
+
+variable "network_acl_tags" {
+  description = "Additional tags for the Default Network ACL"
+  type        = map(string)
+  default     = {}
+}
+
+variable "network_acl_ingress" {
+  description = "List of strings of ingress rules to set on the Default Network ACL"
+  type        = list(string)
+
+  default = [
+    "ACCEPT#0.0.0.0/0#ALL#ALL"
+  ]
+}
+
+variable "network_acl_egress" {
+  description = "List of strings of egress rules to set on the Default Network ACL"
+  type        = list(string)
+
+  default = [
+    "ACCEPT#0.0.0.0/0#ALL#ALL"
+  ]
+}
+
+variable "enable_nat_gateway" {
+  description = "Should be true if you want to provision NAT Gateways for each of your private networks"
+  type        = bool
+  default     = false
+}
+
+variable "nat_gateway_bandwidth" {
+  description = "bandwidth of NAT Gateway"
+  type        = number
+  default     = 100
+}
+
+variable "nat_gateway_concurrent" {
+  description = "bandwidth of NAT Gateway"
+  type        = number
+  default     = 1000000
+}
+
+variable "nat_gateway_tags" {
+  description = "Additional tags for the NAT gateway"
+  type        = map(string)
+  default     = {}
+}
+
+variable "nat_public_ips" {
+  description = "List of EIPs to be used for `nat_gateway`"
+  type        = list(string)
+  default     = []
 }
