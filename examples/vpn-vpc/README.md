@@ -1,6 +1,6 @@
 # VPC Module Example
 
-This module will create a new VPC, Subnet and Route rules.
+This module will create a new VPC with VPN gateway, Subnet and Route rules.
 
 ## Usage
 
