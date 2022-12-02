@@ -8,8 +8,8 @@ module "vpc" {
   subnet_cidrs = ["10.0.0.0/24", "10.0.1.0/24"]
 
   destination_cidrs = ["1.0.1.0/24"]
-  next_type         = ["EIP"]
-  next_hub          = ["0", null]
+  next_type         = ["VPN"]
+  next_hub          = ["0"]
 
   tags = {
     module = "vpc"
@@ -23,5 +23,5 @@ module "vpc" {
     test = "vpn"
   }
 
-  enable_vpn_gateway = false
+  enable_vpn_gateway = true
 }
