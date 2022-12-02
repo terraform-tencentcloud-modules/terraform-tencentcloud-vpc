@@ -32,7 +32,7 @@ variable "vpc_id" {
 
 variable "vpc_name" {
   description = "The vpc name used to launch a new vpc when 'vpc_id' is not specified."
-  default     = "tf-modules-vpc"
+  default     = "my-vpc"
 }
 
 variable "vpc_cidr" {
@@ -59,7 +59,7 @@ variable "vpc_tags" {
 
 variable "subnet_name" {
   description = "Specify the subnet name when 'vpc_id' is not specified."
-  default     = "tf-modules-subnet"
+  default     = "subnet"
 }
 
 variable "subnet_cidrs" {
@@ -163,34 +163,32 @@ variable "vpn_gateway_tags" {
 
 /* enable ACL to subnets */
 variable "manage_network_acl" {
-  description = "Should be true to adopt and manage Default Network ACL"
+  description = "Should be true to adopt and manage Network ACL for subnets"
   type        = bool
   default     = false
 }
 
 variable "network_acl_name" {
-  description = "Name to be used on the Default Network ACL"
+  description = "Name to be used on Network ACL"
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "network_acl_tags" {
-  description = "Additional tags for the Default Network ACL"
+  description = "Additional tags for the Network ACL"
   type        = map(string)
   default     = {}
 }
 
 variable "network_acl_ingress" {
-  description = "List of strings of ingress rules to set on the Default Network ACL"
+  description = "List of strings of ingress rules to set on the Network ACL, eg: `ACCEPT#0.0.0.0/0#ALL#ALL`"
   type        = list(string)
 
-  default = [
-    "ACCEPT#0.0.0.0/0#ALL#ALL"
-  ]
+  default = null
 }
 
 variable "network_acl_egress" {
-  description = "List of strings of egress rules to set on the Default Network ACL"
+  description = "List of strings of egress rules to set on the Network ACL, eg: `ACCEPT#0.0.0.0/0#ALL#ALL`"
   type        = list(string)
 
   default = [
@@ -199,7 +197,7 @@ variable "network_acl_egress" {
 }
 
 variable "enable_nat_gateway" {
-  description = "Should be true if you want to provision NAT Gateways for each of your private networks"
+  description = "Should be true if you want to provision NAT Gateways for vpc."
   type        = bool
   default     = false
 }
