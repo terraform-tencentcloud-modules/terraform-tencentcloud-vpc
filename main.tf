@@ -21,13 +21,7 @@ locals {
 }
 
 resource "tencentcloud_vpc" "vpc" {
-  count = local.create_vpc ? 1 : 0
-  lifecycle {
-    precondition {
-      condition     = var.vpc_id == ""
-      error_message = "vpc_id should be empty while create_vpc is `true`"
-    }
-  }
+  count        = local.create_vpc ? 1 : 0
   name         = var.vpc_name
   cidr_block   = var.vpc_cidr
   is_multicast = var.vpc_is_multicast
