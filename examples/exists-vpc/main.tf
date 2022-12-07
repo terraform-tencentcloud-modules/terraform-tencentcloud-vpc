@@ -3,8 +3,9 @@ data "tencentcloud_vpc_instances" "foo" {
 }
 
 module "vpc" {
-  source = "terraform-tencentcloud-modules/vpc/tencentcloud"
-  vpc_id = data.tencentcloud_vpc_instances.foo.instance_list.0.vpc_id
+  source     = "terraform-tencentcloud-modules/vpc/tencentcloud"
+  create_vpc = false
+  vpc_id     = data.tencentcloud_vpc_instances.foo.instance_list.0.vpc_id
 
   subnet_name  = "simple-vpc"
   subnet_cidrs = ["172.16.64.0/20", "172.16.128.0/20"]
