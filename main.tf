@@ -11,13 +11,13 @@ locals {
 
   # nat gateway
   enable_nat_gateway = var.enable_nat_gateway
-  nat_gateway_name_to_id = local.enable_nat_gateway ? { for nat in module.nats: nat.nat_name => nat.nat_id } : var.nat_gateway_name_to_id
+  nat_gateway_name_to_id = local.enable_nat_gateway ? { for nat in module.nats: nat.nat_name => nat.nat_id } : var.nat_gateway_name_to_id == null ? {} : var.nat_gateway_name_to_id
 
   # route tables
   enable_route_table = var.enable_route_table
   default_rtb = [for rtb in data.tencentcloud_vpc_route_tables.rtbs.instance_list: rtb if rtb.is_default ][0]
   default_rtb_after = [for rtb in data.tencentcloud_vpc_route_tables.rtbs_after.instance_list: rtb if rtb.is_default ][0]
-  route_table_name_to_id = local.enable_route_table ? { for rtb in tencentcloud_route_table.rtbs: rtb.name => rtb.id }: var.route_table_name_to_id
+  route_table_name_to_id = local.enable_route_table ? { for rtb in tencentcloud_route_table.rtbs: rtb.name => rtb.id }: var.route_table_name_to_id == null ? {} : var.route_table_name_to_id
 
   # route table entries
   rtb_pfx_to_next_type = {
