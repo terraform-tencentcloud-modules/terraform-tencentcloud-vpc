@@ -152,7 +152,7 @@ variable "vpn_gateway_type" {
 variable "vpn_gateway_availability_zone" {
   description = "The Availability Zone for the VPN Gateway"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "vpn_gateway_tags" {
