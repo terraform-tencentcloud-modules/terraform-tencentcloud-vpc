@@ -62,6 +62,7 @@ resource "tencentcloud_route_table_entry" "route_entry" {
 ################################################################################
 # VPN Gateway
 ################################################################################
+
 resource "tencentcloud_vpn_gateway" "vpn" {
   count          = var.enable_vpn_gateway ? 1 : 0
   name           = "${var.vpc_name}-vpngw"
@@ -70,6 +71,10 @@ resource "tencentcloud_vpn_gateway" "vpn" {
   bandwidth      = var.vpn_gateway_bandwidth
   max_connection = var.vpn_gateway_max_connection
   zone           = var.vpn_gateway_availability_zone != "" ? var.vpn_gateway_availability_zone : local.availability_zones[0]
+
+  charge_type    = var.vpn_gateway_charge_type // "PREPAID"
+  prepaid_period = var.vpn_gateway_charge_type == "PREPAID" ? var.vpn_gateway_prepaid_period : null // 1
+  prepaid_renew_flag = var.vpn_gateway_charge_type == "PREPAID" ? var.vpn_gateway_prepaid_renew_flag : null  // "NOTIFY_AND_AUTO_RENEW"
 
   tags = merge(
     var.tags,

@@ -161,6 +161,22 @@ variable "vpn_gateway_tags" {
   default     = {}
 }
 
+variable "vpn_gateway_charge_type" {
+  type = string
+  default = "POSTPAID_BY_HOUR"
+  description = "Charge Type of the VPN gateway. Valid value: PREPAID, POSTPAID_BY_HOUR. The default is POSTPAID_BY_HOUR"
+}
+variable "vpn_gateway_prepaid_period" {
+  type = number
+  default = 1
+  description = "Period of instance to be prepaid. Valid value: 1, 2, 3, 4, 6, 7, 8, 9, 12, 24, 36. The unit is month."
+}
+variable "vpn_gateway_prepaid_renew_flag" {
+  type = string
+  default = "NOTIFY_AND_AUTO_RENEW"
+  description = "Flag indicates whether to renew or not. Valid value: NOTIFY_AND_AUTO_RENEW, NOTIFY_AND_MANUAL_RENEW"
+}
+
 /* enable ACL to subnets */
 variable "manage_network_acl" {
   description = "Should be true to adopt and manage Network ACL for subnets"
