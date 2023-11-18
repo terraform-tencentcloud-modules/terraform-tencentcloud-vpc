@@ -74,7 +74,7 @@ resource "tencentcloud_vpn_gateway" "vpn" {
 
   charge_type    = var.vpn_gateway_charge_type // "PREPAID"
   prepaid_period = var.vpn_gateway_charge_type == "PREPAID" ? var.vpn_gateway_prepaid_period : null // 1
-  prepaid_renew_flag = var.vpn_gateway_charge_type == "PREPAID" ? var.vpn_gateway_prepaid_renew_flag : null  // "NOTIFY_AND_AUTO_RENEW"
+  prepaid_renew_flag = var.vpn_gateway_charge_type == "PREPAID" ? var.vpn_gateway_prepaid_renew_flag : "NOTIFY_AND_MANUAL_RENEW"  // "NOTIFY_AND_AUTO_RENEW"
 
   tags = merge(
     var.tags,
