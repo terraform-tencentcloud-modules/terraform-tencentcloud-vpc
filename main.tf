@@ -13,7 +13,7 @@ data "tencentcloud_vpc_route_tables" "default" {
 locals {
   create_vpc         = var.create_vpc
   custom_route_table = var.create_route_table == false || local.create_vpc ? false : length(var.destination_cidrs) > 0
-  availability_zones = length(var.availability_zones) > 0 ? var.availability_zones : data.tencentcloud_instance_types.default.instance_types.*.availability_zone
+  availability_zones = length(var.availability_zones) > 0 ? var.availability_zones : sort(distinct(data.tencentcloud_instance_types.default.instance_types.*.availability_zone))
   route_table_id = var.route_table_id != "" ? var.route_table_id : local.custom_route_table ? tencentcloud_route_table.route_table[0].id : local.create_vpc ? tencentcloud_vpc.vpc[0].default_route_table_id : try(
     data.tencentcloud_vpc_route_tables.default.instance_list[0].route_table_id,
     null
