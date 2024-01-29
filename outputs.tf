@@ -8,6 +8,12 @@ output "subnet_id" {
   value       = tencentcloud_subnet.subnet.*.id
 }
 
+output "az_to_subnets" {
+  value = {
+    for k, subnet in tencentcloud_subnet.subnet: subnet.availability_zone => subnet.id...
+  }
+}
+
 output "route_table_id" {
   description = "The id of route table."
   value       = local.route_table_id

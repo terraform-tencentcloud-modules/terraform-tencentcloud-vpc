@@ -13,7 +13,7 @@ data "tencentcloud_vpc_route_tables" "default" {
 locals {
   create_vpc         = var.create_vpc
   custom_route_table = var.create_route_table == false || local.create_vpc ? false : length(var.destination_cidrs) > 0
-  availability_zones = length(var.availability_zones) > 0 ? var.availability_zones : data.tencentcloud_instance_types.default.instance_types.*.availability_zone
+  availability_zones = length(var.availability_zones) > 0 ? var.availability_zones : sort(distinct(data.tencentcloud_instance_types.default.instance_types.*.availability_zone))
   route_table_id = var.route_table_id != "" ? var.route_table_id : local.custom_route_table ? tencentcloud_route_table.route_table[0].id : local.create_vpc ? tencentcloud_vpc.vpc[0].default_route_table_id : try(
     data.tencentcloud_vpc_route_tables.default.instance_list[0].route_table_id,
     null
@@ -56,12 +56,18 @@ resource "tencentcloud_route_table_entry" "route_entry" {
   destination_cidr_block = var.destination_cidrs[count.index]
   next_type              = var.next_type[count.index]
   next_hub               = var.next_type[count.index] == "NAT" && var.enable_nat_gateway && var.next_hub[count.index] == "0" ? tencentcloud_nat_gateway.nat[0].id : var.next_type[count.index] == "VPN" && var.enable_vpn_gateway && var.next_hub[count.index] == "0" ? tencentcloud_vpn_gateway.vpn[0].id : var.next_hub[count.index]
+  lifecycle {
+    ignore_changes = [
+      disabled  // we do not control this toggle here because it will auto managed by other products such as CFW
+    ]
+  }
 }
 
 
 ################################################################################
 # VPN Gateway
 ################################################################################
+
 resource "tencentcloud_vpn_gateway" "vpn" {
   count          = var.enable_vpn_gateway ? 1 : 0
   name           = "${var.vpc_name}-vpngw"
@@ -70,6 +76,10 @@ resource "tencentcloud_vpn_gateway" "vpn" {
   bandwidth      = var.vpn_gateway_bandwidth
   max_connection = var.vpn_gateway_max_connection
   zone           = var.vpn_gateway_availability_zone != "" ? var.vpn_gateway_availability_zone : local.availability_zones[0]
+
+  charge_type    = var.vpn_gateway_charge_type // "PREPAID"
+  prepaid_period = var.vpn_gateway_charge_type == "PREPAID" ? var.vpn_gateway_prepaid_period : null // 1
+  prepaid_renew_flag = var.vpn_gateway_prepaid_renew_flag //  "NOTIFY_AND_MANUAL_RENEW"  // "NOTIFY_AND_AUTO_RENEW"
 
   tags = merge(
     var.tags,
