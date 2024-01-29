@@ -56,6 +56,11 @@ resource "tencentcloud_route_table_entry" "route_entry" {
   destination_cidr_block = var.destination_cidrs[count.index]
   next_type              = var.next_type[count.index]
   next_hub               = var.next_type[count.index] == "NAT" && var.enable_nat_gateway && var.next_hub[count.index] == "0" ? tencentcloud_nat_gateway.nat[0].id : var.next_type[count.index] == "VPN" && var.enable_vpn_gateway && var.next_hub[count.index] == "0" ? tencentcloud_vpn_gateway.vpn[0].id : var.next_hub[count.index]
+  lifecycle {
+    ignore_changes = [
+      disabled  // we do not control this toggle here because it will auto managed by other products such as CFW
+    ]
+  }
 }
 
 
